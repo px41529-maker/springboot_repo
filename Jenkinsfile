@@ -4,6 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
+                 git branch: 'main',
                 git 'https://github.com/px41529-maker/springboot_repo.git'
             }
         }
