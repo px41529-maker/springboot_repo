@@ -1,11 +1,6 @@
 pipeline {
     agent any
 
-    tools {
-        maven 'Maven'
-        jdk 'JDK17'
-    }
-
     stages {
         stage('Checkout') {
             steps {
@@ -19,9 +14,9 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
+        stage('Run') {
             steps {
-                sh 'cp target/*.war /opt/tomcat/webapps/'
+                sh 'nohup java -jar target/*.jar > app.log 2>&1 &'
             }
         }
     }
