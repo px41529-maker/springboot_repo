@@ -2,10 +2,11 @@ pipeline {
     agent any
 
     stages {
+
         stage('Checkout') {
             steps {
-                 git branch: 'main',
-                git 'https://github.com/px41529-maker/springboot_repo.git'
+                git branch: 'main',
+                    url: 'https://github.com/px41529-maker/springboot_repo.git'
             }
         }
 
