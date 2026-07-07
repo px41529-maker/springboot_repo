@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    environment {
+        IMAGE_NAME = "newspringboot-app"
+        IMAGE_TAG = "v1"
+    }
+
     stages {
 
         stage('Checkout') {
@@ -16,9 +21,22 @@ pipeline {
             }
         }
 
-        stage('Run') {
+        stage('Docker Build') {
             steps {
-                sh 'nohup java -jar target/*.jar > app.log 2>&1 &'
+                sh 'docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .'
+            }
+        }
+
+        stage('Run Container') {
+            steps {
+                sh '''
+                docker rm -f springboot-container || true
+
+                docker run -d \
+                  --name springboot-container \
+                  -p 5000:9090 \
+                  ${IMAGE_NAME}:${IMAGE_TAG}
+                '''
             }
         }
     }
